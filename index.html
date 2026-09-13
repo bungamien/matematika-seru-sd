@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematika Seru - Al-Khawarizmi Kids</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #EEF2FF;
+            --secondary: #059669;
+            --secondary-light: #ECFDF5;
+            --warning: #D97706;
+            --warning-light: #FFFBEB;
+            --danger: #DC2626;
+            --danger-light: #FEF2F2;
+            
+            /* Nilai Tempat Colors */
+            --ribuan-color: #8B5CF6;
+            --ribuan-bg: #F3E8FF;
+            --ratusan-color: #0284C7;
+            --ratusan-bg: #E0F2FE;
+            --puluhan-color: #D97706;
+            --puluhan-bg: #FEF3C7;
+            --satuan-color: #E11D48;
+            --satuan-bg: #FFE4E6;
+
+            --bg-app: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px;
+        }
+
+        /* CONTAINER MAIN */
+        .app-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* HEADER & LOGO */
+        .app-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-bottom: 16px;
+            border-bottom: 2px dashed var(--border-color);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .brand-svg {
+            width: 65px;
+            height: 65px;
+        }
+
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #312E81;
+            letter-spacing: -0.5px;
+        }
+
+        .app-subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* TOP TOOLBAR */
+        .top-toolbar {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .btn-icon {
+            background: #F1F5F9;
+            border: 2px solid var(--border-color);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.08);
+            background: #E2E8F0;
+        }
+
+        /* BUTTONS & NAVIGATION */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+        }
+
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-secondary { background-color: var(--secondary); color: white; }
+        .btn-warning { background-color: var(--warning); color: white; }
+        .btn-outline { background: white; border: 2px solid var(--border-color); color: var(--text-main); box-shadow: none; }
+        .btn-large { padding: 16px 28px; font-size: 1.2rem; width: 100%; }
+
+        /* VIEW SWITCHER */
+        .view-panel {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* MENU GRID */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .menu-card {
+            background: white;
+            border: 3px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-card-icon {
+            font-size: 2.5rem;
+        }
+
+        /* MATH WORKSPACE GRID */
+        .place-value-header {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .badge-place {
+            padding: 6px 4px;
+            border-radius: 8px;
+            color: #1E293B;
+        }
+
+        .bg-ribuan { background-color: var(--ribuan-bg); color: var(--ribuan-color); border: 2px solid var(--ribuan-color); }
+        .bg-ratusan { background-color: var(--ratusan-bg); color: var(--ratusan-color); border: 2px solid var(--ratusan-color); }
+        .bg-puluhan { background-color: var(--puluhan-bg); color: var(--puluhan-color); border: 2px solid var(--puluhan-color); }
+        .bg-satuan { background-color: var(--satuan-bg); color: var(--satuan-color); border: 2px solid var(--satuan-color); }
+
+        .math-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            background: #F8FAFC;
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 2px solid var(--border-color);
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .cell {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            border-radius: 10px;
+            position: relative;
+            background: white;
+            border: 1px solid #E2E8F0;
+            transition: all 0.3s ease;
+        }
+
+        .cell.active-col {
+            background: #FEF08A;
+            border: 3px solid #EAB308;
+            transform: scale(1.05);
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);
+        }
+
+        .cell-carry {
+            height: 38px;
+            font-size: 1.1rem;
+            color: var(--danger);
+            font-weight: 800;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cell-carry.has-carry {
+            background: #FEE2E2;
+            border: 2px dashed var(--danger);
+            border-radius: 8px;
+            animation: bounceIn 0.4s ease;
+        }
+
+        /* BORROW BADGE & STRIKETHROUGH */
+        .borrow-badge {
+            background-color: #2563EB;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .strikethrough-num {
+            text-decoration: line-through;
+            color: #94A3B8;
+            font-size: 1.6rem;
+            opacity: 0.7;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .operator-sign {
+            position: absolute;
+            left: 10px;
+            bottom: 75px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .divider-line {
+            grid-column: span 4;
+            height: 4px;
+            background: #334155;
+            border-radius: 2px;
+            margin: 4px 0;
+        }
+
+        /* INSTRUCTION / EXPLANATION BOX */
+        .explanation-box {
+            background: var(--primary-light);
+            border-left: 6px solid var(--primary);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #1E1B4B;
+        }
+
+        .explanation-box strong {
+            color: var(--primary);
+        }
+
+        .interactive-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            background: #FFFBEB;
+            border: 2px dashed #F59E0B;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .number-input-field {
+            width: 100px;
+            height: 50px;
+            font-size: 1.8rem;
+            text-align: center;
+            font-weight: 800;
+            border: 3px solid #CBD5E1;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .number-input-field:focus {
+            border-color: var(--primary);
+        }
+
+        .quiz-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #F1F5F9;
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 24px;
+            background: #FAF5FF;
+            border: 3px solid #C084FC;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .score-big {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #7E22CE;
+            margin: 10px 0;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .guide-section {
+            margin-top: 24px;
+            background: #F8FAFC;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .guide-section h4 {
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .guide-section ol {
+            padding-left: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .app-title { font-size: 1.4rem; }
+            .app-subtitle { font-size: 0.85rem; }
+            .cell { height: 48px; font-size: 1.6rem; }
+            .badge-place { font-size: 0.7rem; padding: 4px 2px; }
+            .btn { padding: 10px 14px; font-size: 0.9rem; }
+            .operator-sign { bottom: 60px; font-size: 1.5rem; }
+            .strikethrough-num { font-size: 1.2rem; }
+            .borrow-badge { font-size: 0.9rem; padding: 1px 6px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        
+        <!-- TOP TOOLBAR -->
+        <div class="top-toolbar">
+            <button class="btn-icon" id="btnSound" title="Suara ON/OFF" onclick="toggleSound()">🔊</button>
+            <button class="btn-icon" id="btnFullscreen" title="Layar Penuh" onclick="toggleFullscreen()">⛶</button>
+        </div>
+
+        <!-- APPLICATION HEADER -->
+        <header class="app-header">
+            <div class="logo-wrapper">
+                <!-- SVG BRAND LOGO AL-KHAWARIZMI KIDS -->
+                <svg class="brand-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 10 C50 10, 10 50, 10 100 C10 150, 50 190, 100 190 C150 190, 190 150, 190 100 C190 50, 150 10, 100 10 Z" fill="#EEF2FF" stroke="#4F46E5" stroke-width="6"/>
+                    <path d="M40 140 Q 100 60, 160 140" stroke="#8B5CF6" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    <rect x="70" y="70" width="60" height="60" rx="10" fill="#F59E0B" />
+                    <text x="100" y="112" font-size="38" font-weight="900" fill="white" text-anchor="middle">∑</text>
+                    <circle cx="50" cy="80" r="12" fill="#10B981" />
+                    <circle cx="150" cy="80" r="12" fill="#EC4899" />
+                </svg>
+                <div>
+                    <h1 class="app-title">MATEMATIKA SERU</h1>
+                    <p class="app-subtitle">Al-Khawarizmi Kids • Belajar Penjumlahan & Pengurangan Bersusun</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- VIEW 1: HOME MENU -->
+        <div id="viewHome" class="view-panel active">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: var(--primary); font-size: 1.3rem;">Pilih Mode Belajar Kamu!</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Pelajari konsep nilai tempat, menyimpan, dan meminjam secara visual.</p>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-card" onclick="startMode('addition')">
+                    <div class="menu-card-icon">🟦</div>
+                    <h3 style="color:#1D4ED8;">PENJUMLAHAN BERSUSUN</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Belajar penjumlahan dengan konsep menyimpan secara bertahap.</p>
+                    <button class="btn btn-primary" style="margin-top: auto; width: 100%;">Mulai Belajar</button>
+                </div>
+
+                <div class="menu-card" onclick="startMode('subtraction')">
+                    <div class="menu-card-icon">🟧</div>
+                    <h3 style="color:#C2410C;">PENGURANGAN BERSUSUN</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Belajar pengurangan dengan konsep meminjam dan angka dicoret.</p>
+                    <button class="btn btn-warning" style="margin-top: auto; width: 100%;">Mulai Belajar</button>
+                </div>
+
+                <div class="menu-card" onclick="startMode('quiz')">
+                    <div class="menu-card-icon">📝</div>
+                    <h3 style="color:#047857;">MODE LATIHAN</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Uji kemampuanmu mengerjakan 10 soal acak bersusun.</p>
+                    <button class="btn btn-secondary" style="margin-top: auto; width: 100%;">Mulai Latihan</button>
+                </div>
+
+                <div class="menu-card" onclick="startMode('custom')">
+                    <div class="menu-card-icon">✏️</div>
+                    <h3 style="color:#6B21A8;">COBA SENDIRI</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Masukkan angka buatanmu sendiri dan lihat cara penyelesaiannya.</p>
+                    <button class="btn btn-outline" style="margin-top: auto; width: 100%;">Buat Soal</button>
+                </div>
+            </div>
+
+            <div class="guide-section">
+                <h4>📌 Petunjuk Penggunaan bagi Siswa & Guru:</h4>
+                <ol>
+                    <li>Pilih materi <strong>Penjumlahan</strong> atau <strong>Pengurangan</strong>.</li>
+                    <li>Gunakan tombol <strong>Langkah Berikutnya</strong> untuk melihat proses per nilai tempat.</li>
+                    <li>Perhatikan angka simpanan atau coretan angka pinjaman secara interaktif.</li>
+                    <li>Uji pemahaman di menu <strong>Latihan</strong> untuk mengumpulkan bintang dan nilai!</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- VIEW 2: GUIDED WORKSPACE -->
+        <div id="viewWorkspace" class="view-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <button class="btn btn-outline" onclick="showHome()">← Menu Utama</button>
+                <span id="workspaceTitle" style="font-weight: 800; color: var(--primary); font-size: 1.1rem;">Penjumlahan Bersusun</span>
+            </div>
+
+            <!-- PLACE VALUE HEADERS -->
+            <div class="place-value-header">
+                <div class="badge-place bg-ribuan">Ribuan</div>
+                <div class="badge-place bg-ratusan">Ratusan</div>
+                <div class="badge-place bg-puluhan">Puluhan</div>
+                <div class="badge-place bg-satuan">Satuan</div>
+            </div>
+
+            <!-- MATH WORKSPACE DISPLAY -->
+            <div class="math-grid" id="mathGrid">
+                <!-- ROW CARRY / BORROW BADGES -->
+                <div class="cell cell-carry" id="carry-3"></div>
+                <div class="cell cell-carry" id="carry-2"></div>
+                <div class="cell cell-carry" id="carry-1"></div>
+                <div class="cell cell-carry" id="carry-0"></div>
+
+                <!-- ROW FIRST NUMBER -->
+                <div class="cell" id="num1-3">-</div>
+                <div class="cell" id="num1-2">-</div>
+                <div class="cell" id="num1-1">-</div>
+                <div class="cell" id="num1-0">-</div>
+
+                <!-- ROW SECOND NUMBER -->
+                <div class="cell" id="num2-3">-</div>
+                <div class="cell" id="num2-2">-</div>
+                <div class="cell" id="num2-1">-</div>
+                <div class="cell" id="num2-0">-</div>
+
+                <div class="operator-sign" id="operatorSign">+</div>
+                <div class="divider-line"></div>
+
+                <!-- ROW RESULT -->
+                <div class="cell" id="res-3"></div>
+                <div class="cell" id="res-2"></div>
+                <div class="cell" id="res-1"></div>
+                <div class="cell" id="res-0"></div>
+            </div>
+
+            <!-- STEP EXPLANATION BOX -->
+            <div class="explanation-box" id="explanationText">
+                Tekan tombol <strong>Mulai / Langkah Berikutnya</strong> untuk memulai penjelasan.
+            </div>
+
+            <!-- NAVIGATION CONTROLS -->
+            <div class="nav-controls">
+                <button class="btn btn-outline" id="btnPrevStep" onclick="prevStep()">← Langkah Sebelumnya</button>
+                <button class="btn btn-warning" id="btnResetStep" onclick="resetCurrentProblem()">🔄 Ulangi</button>
+                <button class="btn btn-primary" id="btnNextStep" onclick="nextStep()">Langkah Berikutnya →</button>
+                <button class="btn btn-secondary" id="btnNewProblem" onclick="generateNewWorkspaceProblem()">🎲 Soal Lain</button>
+            </div>
+        </div>
+
+        <!-- VIEW 3: CUSTOM INPUT FORM -->
+        <div id="viewCustom" class="view-panel">
+            <button class="btn btn-outline" onclick="showHome()" style="margin-bottom: 15px;">← Menu Utama</button>
+            
+            <div style="background: white; border: 2px solid var(--border-color); padding: 20px; border-radius: var(--radius);">
+                <h3 style="margin-bottom: 15px; color: var(--primary);">✏️ Mode Coba Sendiri</h3>
+                <p style="margin-bottom: 20px; color: var(--text-muted);">Masukkan dua angka bebas (1 hingga 9999) untuk melihat langkah penyelesaiannya.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 0 auto;">
+                    <div>
+                        <label style="font-weight: 700; display: block; margin-bottom: 6px;">Bilangan Pertama:</label>
+                        <input type="number" id="customNum1" class="number-input-field" style="width: 100%; text-align: left; padding: 10px;" value="422" min="1" max="9999">
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 700; display: block; margin-bottom: 6px;">Operasi Matematika:</label>
+                        <select id="customOp" style="width: 100%; padding: 12px; font-size: 1.1rem; border-radius: 10px; border: 2px solid #CBD5E1; font-weight: 700;">
+                            <option value="subtraction">➖ Pengurangan (-)</option>
+                            <option value="addition">➕ Penjumlahan (+)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 700; display: block; margin-bottom: 6px;">Bilangan Kedua:</label>
+                        <input type="number" id="customNum2" class="number-input-field" style="width: 100%; text-align: left; padding: 10px;" value="178" min="1" max="9999">
+                    </div>
+
+                    <!-- IN-APP ERROR WARNING BOX FOR SD LEVEL VALIDATION -->
+                    <div id="customErrorMsg" style="display: none; background: #FEF2F2; color: #DC2626; border: 2px dashed #EF4444; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; text-align: center;"></div>
+
+                    <button class="btn btn-primary btn-large" onclick="processCustomInput()">Tampilkan Cara Penyelesaian</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: QUIZ MODE -->
+        <div id="viewQuiz" class="view-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <button class="btn btn-outline" onclick="showHome()">← Batal Latihan</button>
+                <span style="font-weight: 800; color: var(--secondary);">📝 Mode Latihan (10 Soal)</span>
+            </div>
+
+            <div class="quiz-stats">
+                <span>Soal: <span id="quizIndex">1</span>/10</span>
+                <span>⭐ Skor: <span id="quizScore">0</span></span>
+            </div>
+
+            <div class="math-grid" id="quizMathGrid">
+                <div class="cell cell-carry" id="qcarry-3"></div>
+                <div class="cell cell-carry" id="qcarry-2"></div>
+                <div class="cell cell-carry" id="qcarry-1"></div>
+                <div class="cell cell-carry" id="qcarry-0"></div>
+
+                <div class="cell" id="qnum1-3">-</div>
+                <div class="cell" id="qnum1-2">-</div>
+                <div class="cell" id="qnum1-1">-</div>
+                <div class="cell" id="qnum1-0">-</div>
+
+                <div class="cell" id="qnum2-3">-</div>
+                <div class="cell" id="qnum2-2">-</div>
+                <div class="cell" id="qnum2-1">-</div>
+                <div class="cell" id="qnum2-0">-</div>
+
+                <div class="operator-sign" id="qoperatorSign">+</div>
+                <div class="divider-line"></div>
+
+                <div class="cell" id="qres-3"></div>
+                <div class="cell" id="qres-2"></div>
+                <div class="cell" id="qres-1"></div>
+                <div class="cell" id="qres-0"></div>
+            </div>
+
+            <div class="interactive-input-group">
+                <span style="font-weight: 700; color: #1E293B;">Masukkan jawaban akhir secara lengkap:</span>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="number" id="quizInputAnswer" class="number-input-field" style="width: 160px;" placeholder="Jawaban" min="0">
+                    <button class="btn btn-secondary" onclick="submitQuizAnswer()">Kirim Jawaban</button>
+                </div>
+                <p id="quizFeedback" style="font-weight: 700; font-size: 1rem; margin-top: 5px;"></p>
+            </div>
+        </div>
+
+        <!-- VIEW 5: QUIZ RESULT -->
+        <div id="viewQuizResult" class="view-panel">
+            <div class="result-card">
+                <h2>🏆 HASIL LATIHAN KAMU</h2>
+                <div class="score-big" id="finalScoreDisplay">100</div>
+                <p id="finalStatsText" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--text-main);">Benar: 10 | Salah: 0</p>
+                <div class="explanation-box" id="motivationalMessage" style="text-align: center; font-weight: 700;">
+                    Hebat sekali! Kamu sangat memahami penjumlahan dan pengurangan.
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <button class="btn btn-outline" onclick="showHome()">Menu Utama</button>
+                    <button class="btn btn-primary" onclick="startMode('quiz')">Coba Latihan Lagi 🔄</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1. GLOBAL STATE VARIABLES
+           ========================================================================== */
+        let audioEnabled = true;
+        let currentMode = 'subtraction'; // 'addition', 'subtraction', 'custom'
+        let num1 = 422;
+        let num2 = 178;
+        let currentOp = '-';
+        let steps = [];
+        let currentStepIndex = 0;
+
+        // Quiz State
+        let quizQuestions = [];
+        let currentQuizIndex = 0;
+        let quizCorrectCount = 0;
+        let quizIncorrectCount = 0;
+
+        /* ==========================================================================
+           2. SOUND ENGINE (WEB AUDIO API)
+           ========================================================================== */
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function toggleSound() {
+            audioEnabled = !audioEnabled;
+            document.getElementById('btnSound').innerText = audioEnabled ? '🔊' : '🔇';
+        }
+
+        function playTone(freq, type = 'sine', duration = 0.15) {
+            if (!audioEnabled) return;
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log("Audio not supported or blocked");
+            }
+        }
+
+        function playSuccessSound() {
+            playTone(523.25, 'triangle', 0.12);
+            setTimeout(() => playTone(659.25, 'triangle', 0.12), 100);
+            setTimeout(() => playTone(783.99, 'triangle', 0.2), 200);
+        }
+
+        function playErrorSound() {
+            playTone(220, 'sawtooth', 0.15);
+            setTimeout(() => playTone(196, 'sawtooth', 0.25), 120);
+        }
+
+        function playFanfareSound() {
+            const notes = [440, 554.37, 659.25, 880];
+            notes.forEach((n, i) => {
+                setTimeout(() => playTone(n, 'triangle', 0.25), i * 150);
+            });
+        }
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function showHome() {
+            switchView('viewHome');
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function startMode(mode) {
+            initAudio();
+            currentMode = mode;
+
+            if (mode === 'addition') {
+                document.getElementById('workspaceTitle').innerText = '🟦 Penjumlahan Bersusun';
+                num1 = 245;
+                num2 = 137;
+                currentOp = '+';
+                switchView('viewWorkspace');
+                setupWorkspaceProblem();
+            } else if (mode === 'subtraction') {
+                document.getElementById('workspaceTitle').innerText = '🟧 Pengurangan Bersusun';
+                num1 = 422;
+                num2 = 178;
+                currentOp = '-';
+                switchView('viewWorkspace');
+                setupWorkspaceProblem();
+            } else if (mode === 'quiz') {
+                switchView('viewQuiz');
+                startQuizSession();
+            } else if (mode === 'custom') {
+                switchView('viewCustom');
+            }
+        }
+
+        function getDigits(number) {
+            // Returns [satuan, puluhan, ratusan, ribuan]
+            const str = number.toString().padStart(4, '0');
+            return [
+                parseInt(str[3]), // Satuan
+                parseInt(str[2]), // Puluhan
+                parseInt(str[1]), // Ratusan
+                parseInt(str[0])  // Ribuan
+            ];
+        }
+
+        function generateAdditionSteps(n1, n2) {
+            const d1 = getDigits(n1);
+            const d2 = getDigits(n2);
+            const stepList = [];
+            const placeNames = ["Satuan", "Puluhan", "Ratusan", "Ribuan"];
+            
+            let carry = 0;
+            let currentRes = [null, null, null, null];
+            let carryArr = [0, 0, 0, 0];
+
+            stepList.push({
+                activeCol: -1,
+                explanation: `Soal: <strong>${n1} + ${n2}</strong>. Mari kita jumlahkan dari kolom paling kanan (<strong>Satuan</strong>).`,
+                res: [...currentRes],
+                carries: [...carryArr]
+            });
+
+            let maxPlace = Math.max(n1.toString().length, n2.toString().length) - 1;
+
+            for (let i = 0; i <= maxPlace || carry > 0; i++) {
+                if (i > 3) break;
+                const digit1 = d1[i] || 0;
+                const digit2 = d2[i] || 0;
+                const sum = digit1 + digit2 + carry;
+                const unitResult = sum % 10;
+                const newCarry = Math.floor(sum / 10);
+
+                let exp = `<strong>Langkah ${i + 1} (${placeNames[i]}):</strong> Jumlahkan `;
+                if (carry > 0) {
+                    exp += `simpanan <strong>${carry}</strong> + `;
+                }
+                exp += `<strong>${digit1}</strong> + <strong>${digit2}</strong> = <strong>${sum}</strong>.`;
+
+                if (newCarry > 0) {
+                    exp += `<br>Karena ${sum} > 9, tulis <strong>${unitResult}</strong> di kolom ${placeNames[i]} dan simpan <strong>${newCarry}</strong> di atas kolom ${placeNames[i+1] || 'berikutnya'}.`;
+                } else {
+                    exp += `<br>Tulis <strong>${unitResult}</strong> di kolom ${placeNames[i]}.`;
+                }
+
+                currentRes[i] = unitResult;
+                carryArr[i] = carry;
+
+                stepList.push({
+                    activeCol: i,
+                    explanation: exp,
+                    res: [...currentRes],
+                    carries: [...carryArr],
+                    nextCarry: newCarry,
+                    placeName: placeNames[i]
+                });
+
+                carry = newCarry;
+            }
+
+            const finalAns = n1 + n2;
+            stepList.push({
+                activeCol: -1,
+                explanation: `🎉 <strong>Selesai!</strong> Hasil akhir dari <strong>${n1} + ${n2}</strong> adalah <strong>${finalAns}</strong>.`,
+                res: getDigits(finalAns),
+                carries: [...carryArr]
+            });
+
+            return stepList;
+        }
+
+        function generateSubtractionSteps(n1, n2) {
+            const d1 = getDigits(n1);
+            const d2 = getDigits(n2);
+            const stepList = [];
+            const placeNames = ["Satuan", "Puluhan", "Ratusan", "Ribuan"];
+            
+            let working = [...d1];
+            let modified = [false, false, false, false];
+            let borrowBadges = [null, null, null, null];
+            let currentRes = [null, null, null, null];
+
+            // Initial Step 0
+            stepList.push({
+                activeCol: -1,
+                explanation: `Soal: <strong>${n1} - ${n2}</strong>. Mari kita kurangkan dari kolom paling kanan (<strong>Satuan</strong>).`,
+                res: [...currentRes],
+                working: [...working],
+                modified: [...modified],
+                borrowBadges: [...borrowBadges]
+            });
+
+            let maxPlace = Math.max(n1.toString().length, n2.toString().length) - 1;
+
+            for (let i = 0; i <= maxPlace; i++) {
+                let top = working[i];
+                let bottom = d2[i] || 0;
+                let exp = `<strong>Langkah ${i + 1} (${placeNames[i]}):</strong> `;
+
+                if (top < bottom) {
+                    // Search for the next column to borrow from
+                    let borrowFromIndex = i + 1;
+                    while (borrowFromIndex <= 3 && working[borrowFromIndex] === 0) {
+                        borrowFromIndex++;
+                    }
+
+                    if (borrowFromIndex <= 3) {
+                        // Cascade borrow logic down to column i
+                        for (let k = borrowFromIndex; k > i; k--) {
+                            const prevVal = working[k];
+                            working[k] -= 1;
+                            working[k-1] += 10;
+                            
+                            modified[k] = true;
+                            modified[k-1] = true;
+
+                            borrowBadges[k] = working[k];
+                            borrowBadges[k-1] = working[k-1];
+                        }
+
+                        top = working[i];
+                        const borrowedFromPlace = placeNames[i+1];
+                        const newBorrowedValue = working[i+1];
+
+                        exp += `Angka atas (<strong>${d1[i]}</strong>) lebih kecil dari angka bawah (<strong>${bottom}</strong>). Kita harus meminjam 1 dari kolom <strong>${borrowedFromPlace}</strong>.<br>`;
+                        exp += `• Kolom <strong>${borrowedFromPlace}</strong> dicoret dan berkurang 1 menjadi <strong>${newBorrowedValue}</strong>.<br>`;
+                        exp += `• Kolom <strong>${placeNames[i]}</strong> mendapat pinjaman 10 sehingga menjadi <strong>${top}</strong>.<br>`;
+                    }
+                } else if (modified[i]) {
+                    exp += `Gunakan angka pengganti hasil pinjaman (<strong>${top}</strong>).<br>`;
+                }
+
+                const diff = top - bottom;
+                exp += `Kurangkan: <strong>${top} - ${bottom} = ${diff}</strong>. Tulis <strong>${diff}</strong> pada kolom ${placeNames[i]}.`;
+                currentRes[i] = diff;
+
+                stepList.push({
+                    activeCol: i,
+                    explanation: exp,
+                    res: [...currentRes],
+                    working: [...working],
+                    modified: [...modified],
+                    borrowBadges: [...borrowBadges],
+                    placeName: placeNames[i]
+                });
+            }
+
+            const finalAns = n1 - n2;
+            stepList.push({
+                activeCol: -1,
+                explanation: `🎉 <strong>Selesai!</strong> Hasil akhir dari <strong>${n1} - ${n2}</strong> adalah <strong>${finalAns}</strong>.`,
+                res: getDigits(finalAns),
+                working: [...working],
+                modified: [...modified],
+                borrowBadges: [...borrowBadges]
+            });
+
+            return stepList;
+        }
+
+        function setupWorkspaceProblem() {
+            if (currentOp === '+') {
+                steps = generateAdditionSteps(num1, num2);
+            } else {
+                steps = generateSubtractionSteps(num1, num2);
+            }
+
+            document.getElementById('operatorSign').innerText = currentOp;
+            currentStepIndex = 0;
+            renderStep(currentStepIndex);
+        }
+
+        function renderStep(index) {
+            const step = steps[index];
+            const d1 = getDigits(num1);
+            const d2 = getDigits(num2);
+            const maxLen = Math.max(num1.toString().length, num2.toString().length);
+
+            for (let i = 0; i < 4; i++) {
+                const elNum1 = document.getElementById(`num1-${i}`);
+                const elNum2 = document.getElementById(`num2-${i}`);
+                const elRes = document.getElementById(`res-${i}`);
+                const elCarry = document.getElementById(`carry-${i}`);
+
+                elNum1.classList.remove('active-col');
+                elNum2.classList.remove('active-col');
+                elRes.classList.remove('active-col');
+
+                // Bottom Number
+                elNum2.innerHTML = (i < maxLen) ? d2[i] : '';
+
+                // Result Number
+                elRes.innerText = step.res[i] !== null && step.res[i] !== undefined ? step.res[i] : '';
+
+                if (currentOp === '+') {
+                    // ADDITION CARRY DISPLAY
+                    elNum1.innerText = (i < maxLen) ? d1[i] : '';
+                    if (step.carries && step.carries[i] > 0) {
+                        elCarry.innerText = `+${step.carries[i]}`;
+                        elCarry.classList.add('has-carry');
+                    } else {
+                        elCarry.innerText = '';
+                        elCarry.classList.remove('has-carry');
+                    }
+                } else {
+                    // SUBTRACTION BORROW DISPLAY WITH STRIKETHROUGH
+                    if (i < maxLen) {
+                        if (step.modified && step.modified[i]) {
+                            // Show original digit strikethrough inside top row
+                            elNum1.innerHTML = `<span class="strikethrough-num">${d1[i]}</span>`;
+                        } else {
+                            elNum1.innerText = d1[i];
+                        }
+                    } else {
+                        elNum1.innerText = '';
+                    }
+
+                    // Render Borrow Badge in Carry/Borrow Row
+                    if (step.borrowBadges && step.borrowBadges[i] !== null) {
+                        elCarry.innerHTML = `<span class="borrow-badge">${step.borrowBadges[i]}</span>`;
+                        elCarry.classList.remove('has-carry');
+                    } else {
+                        elCarry.innerHTML = '';
+                        elCarry.classList.remove('has-carry');
+                    }
+                }
+
+                // Highlight Active Column
+                if (i === step.activeCol) {
+                    elNum1.classList.add('active-col');
+                    elNum2.classList.add('active-col');
+                    elRes.classList.add('active-col');
+                }
+            }
+
+            document.getElementById('explanationText').innerHTML = step.explanation;
+            document.getElementById('btnPrevStep').disabled = (index === 0);
+            document.getElementById('btnNextStep').disabled = (index === steps.length - 1);
+        }
+
+        function nextStep() {
+            if (currentStepIndex < steps.length - 1) {
+                currentStepIndex++;
+                renderStep(currentStepIndex);
+                playTone(440, 'sine', 0.1);
+            }
+        }
+
+        function prevStep() {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                renderStep(currentStepIndex);
+                playTone(350, 'sine', 0.1);
+            }
+        }
+
+        function resetCurrentProblem() {
+            currentStepIndex = 0;
+            renderStep(currentStepIndex);
+        }
+
+        function generateNewWorkspaceProblem() {
+            if (currentOp === '+') {
+                num1 = Math.floor(Math.random() * 899) + 100;
+                num2 = Math.floor(Math.random() * 899) + 100;
+            } else {
+                num1 = Math.floor(Math.random() * 899) + 100;
+                num2 = Math.floor(Math.random() * (num1 - 10)) + 10;
+            }
+            setupWorkspaceProblem();
+            playSuccessSound();
+        }
+
+        function processCustomInput() {
+            const n1 = parseInt(document.getElementById('customNum1').value);
+            const n2 = parseInt(document.getElementById('customNum2').value);
+            const op = document.getElementById('customOp').value;
+            const errorEl = document.getElementById('customErrorMsg');
+
+            errorEl.style.display = 'none';
+
+            if (isNaN(n1) || isNaN(n2) || n1 <= 0 || n2 <= 0) {
+                errorEl.innerText = "⚠️ Mohon masukkan dua bilangan positif yang valid (min. 1).";
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            // SD level restriction: No negative results
+            if (op === 'subtraction' && n2 > n1) {
+                errorEl.innerText = "⚠️ Untuk tingkat SD, bilangan pertama harus lebih besar dari bilangan kedua agar hasil pengurangan tidak negatif.";
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            num1 = n1;
+            num2 = n2;
+            currentOp = (op === 'addition') ? '+' : '-';
+            document.getElementById('workspaceTitle').innerText = currentOp === '+' ? '🟦 Penjumlahan Bersusun' : '🟧 Pengurangan Bersusun';
+
+            switchView('viewWorkspace');
+            setupWorkspaceProblem();
+        }
+
+        function startQuizSession() {
+            quizQuestions = [];
+            currentQuizIndex = 0;
+            quizCorrectCount = 0;
+            quizIncorrectCount = 0;
+
+            // Diverse SD level math problem categories (2-digit to 4-digit)
+            const categories = [
+                { type: '+', min1: 15, max1: 89, min2: 12, max2: 88 },       // 2d + 2d
+                { type: '+', min1: 120, max1: 850, min2: 15, max2: 95 },     // 3d + 2d
+                { type: '+', min1: 110, max1: 890, min2: 110, max2: 890 },   // 3d + 3d
+                { type: '+', min1: 1100, max1: 7500, min2: 150, max2: 950 }, // 4d + 3d
+                { type: '-', min1: 25, max1: 99, min2: 10, max2: 24 },       // 2d - 2d
+                { type: '-', min1: 150, max1: 980, min2: 20, max2: 99 },     // 3d - 2d
+                { type: '-', min1: 300, max1: 990, min2: 110, max2: 290 },   // 3d - 3d
+                { type: '-', min1: 1200, max1: 9500, min2: 200, max2: 990 }  // 4d - 3d
+            ];
+
+            for (let i = 0; i < 10; i++) {
+                const cat = categories[Math.floor(Math.random() * categories.length)];
+                let a = Math.floor(Math.random() * (cat.max1 - cat.min1 + 1)) + cat.min1;
+                let b = Math.floor(Math.random() * (cat.max2 - cat.min2 + 1)) + cat.min2;
+
+                // Ensure non-negative constraint for subtraction strictly (a > b)
+                if (cat.type === '-') {
+                    if (a <= b) {
+                        a = b + Math.floor(Math.random() * 50) + 10;
+                    }
+                }
+
+                quizQuestions.push({
+                    n1: a,
+                    n2: b,
+                    op: cat.type,
+                    ans: cat.type === '+' ? (a + b) : (a - b)
+                });
+            }
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quizIndex').innerText = currentQuizIndex + 1;
+            document.getElementById('quizScore').innerText = quizCorrectCount * 10;
+            document.getElementById('qoperatorSign').innerText = q.op;
+            document.getElementById('quizInputAnswer').value = '';
+            document.getElementById('quizFeedback').innerText = '';
+
+            const d1 = getDigits(q.n1);
+            const d2 = getDigits(q.n2);
+
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`qnum1-${i}`).innerText = (i < Math.max(q.n1.toString().length, q.n2.toString().length)) ? d1[i] : '';
+                document.getElementById(`qnum2-${i}`).innerText = (i < Math.max(q.n1.toString().length, q.n2.toString().length)) ? d2[i] : '';
+                document.getElementById(`qres-${i}`).innerText = '?';
+            }
+        }
+
+        function submitQuizAnswer() {
+            const inputVal = parseInt(document.getElementById('quizInputAnswer').value);
+            const q = quizQuestions[currentQuizIndex];
+            const feedbackEl = document.getElementById('quizFeedback');
+
+            if (isNaN(inputVal)) {
+                feedbackEl.style.color = "var(--danger)";
+                feedbackEl.innerText = "Masukkan jawaban terlebih dahulu!";
+                return;
+            }
+
+            if (inputVal === q.ans) {
+                quizCorrectCount++;
+                playSuccessSound();
+                feedbackEl.style.color = "var(--secondary)";
+                feedbackEl.innerText = "🌟 Hebat! Jawaban kamu benar!";
+            } else {
+                quizIncorrectCount++;
+                playErrorSound();
+                feedbackEl.style.color = "var(--danger)";
+                feedbackEl.innerText = `❌ Kurang tepat. Jawaban yang benar adalah ${q.ans}`;
+            }
+
+            const resDigits = getDigits(q.ans);
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`qres-${i}`).innerText = resDigits[i];
+            }
+
+            setTimeout(() => {
+                currentQuizIndex++;
+                if (currentQuizIndex < 10) {
+                    renderQuizQuestion();
+                } else {
+                    finishQuizSession();
+                }
+            }, 1800);
+        }
+
+        function finishQuizSession() {
+            switchView('viewQuizResult');
+            const score = quizCorrectCount * 10;
+            document.getElementById('finalScoreDisplay').innerText = score;
+            document.getElementById('finalStatsText').innerText = `Benar: ${quizCorrectCount} | Salah: ${quizIncorrectCount}`;
+
+            const msgEl = document.getElementById('motivationalMessage');
+            if (score >= 90) {
+                msgEl.innerText = "🌟 Hebat sekali! Kamu sangat memahami penjumlahan dan pengurangan bersusun.";
+            } else if (score >= 80) {
+                msgEl.innerText = "👍 Bagus! Terus berlatih agar semakin mahir.";
+            } else if (score >= 70) {
+                msgEl.innerText = "🙂 Sudah bagus. Yuk latihan lagi agar nilaimu sempurna!";
+            } else {
+                msgEl.innerText = "💪 Jangan menyerah. Mari belajar langkah demi langkah lagi ya!";
+            }
+
+            playFanfareSound();
+        }
+
+        window.onload = function() {
+            console.log("Matematika Seru - Al-Khawarizmi Kids Ready!");
+        };
+    </script>
+</body>
+</html>
